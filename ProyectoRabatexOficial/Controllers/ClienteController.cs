@@ -62,6 +62,63 @@ namespace ProyectoRabatexOficial.Controllers
             }
            
         }*/
+        [HttpPut]
+        [Route("/cliente/activar/{Id}")]
+        public async Task<IActionResult> activarCliente(int Id)
+        {
+            try
+            {
+                Cliente cliente = await _context.Clientes.FindAsync(Id);
+                if (cliente != null)
+                {
+                    Console.WriteLine("holaaaaaa");
+                    cliente.Estado = 1;
+                    Console.WriteLine(cliente.Id);
+                    _context.Update(cliente);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+                return Ok();
+            }
+            catch
+            {
+                return NotFound();
+
+            }
+        }
+
+        [HttpPut]
+        [Route("/cliente/eliminar/{Id}")]
+        public async Task<IActionResult> eliminarCliente(int Id)
+        {
+            try
+            {
+                Cliente cliente = await _context.Clientes.FindAsync(Id);
+                if (cliente != null)
+                {
+                    Console.WriteLine("holaaaaaa");
+                    cliente.Estado = 0;
+                    Console.WriteLine(cliente.Id);
+                    _context.Update(cliente);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+                return Ok();
+            }
+            catch
+            {
+                return NotFound();
+
+            }
+        }
 
         [HttpPut]
         [Route("/cliente/agregarIngreso")]
@@ -100,6 +157,19 @@ namespace ProyectoRabatexOficial.Controllers
             }
         }
         [HttpGet]
+        [Route("/cliente/activos")]
+        public async Task<ActionResult<List<Cliente>>> getClientesActivos()
+        {
+            try
+            {
+                return new OkObjectResult(_context.Clientes.Where(e => e.Estado == 1).ToList());
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+        [HttpGet]
         [Route("/cliente/localidad")]
         public async Task<ActionResult<List<Cliente>>> getClientePorLocalidad(string localidad)
         {
@@ -127,21 +197,40 @@ namespace ProyectoRabatexOficial.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("/cliente/nombre/{nombre}")]
+        public async Task<ActionResult<Cliente>> obtenerCliente(string nombre)
+        {
+            try { Cliente cliente = _context.Clientes.Where(e => e.Nombre.Equals(nombre)).FirstOrDefault();
+                if (cliente != null)
+                {
+                    return new OkObjectResult(cliente);
+                }
+                else { return NotFound(); } } catch {
+                return NotFound();
+            }
+           
+        }
         [HttpPost]
         [Route("/cliente/agregar")]
         public async Task<IActionResult> postCliente(ClienteDto dto)
         {
             try
             {
-
-                Cliente cliente = new Cliente(); 
-                cliente.Localidad = dto.Localidad;
-                cliente.Nombre= dto.Nombre;
-                cliente.Estado = 1;
-                _context.Clientes.Add(cliente);
-                Console.Write("hola");
-                _context.SaveChanges();
-                return Ok();
+                if (_context.Productos.Where(o => o.Nombre.Equals(dto.Nombre)).FirstOrDefault() == null)
+                {
+                    Cliente cliente = new Cliente();
+                    cliente.Localidad = dto.Localidad;
+                    cliente.Nombre = dto.Nombre;
+                    cliente.Estado = 1;
+                    _context.Clientes.Add(cliente);
+                    Console.Write("hola");
+                    _context.SaveChanges();
+                    return Ok();
+                }
+                else {
+                    return NotFound();
+                }
             } catch
             
             {

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Win10\\Desktop\\.net\\ProyectoRabatexOficial\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj": {}
+    "C:\\Users\\Win10\\Desktop\\proyectos oficiales\\appRabatex1\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Win10\\Desktop\\.net\\ProyectoRabatexOficial\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj": {
+    "C:\\Users\\Win10\\Desktop\\proyectos oficiales\\appRabatex1\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Win10\\Desktop\\.net\\ProyectoRabatexOficial\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj",
+        "projectUniqueName": "C:\\Users\\Win10\\Desktop\\proyectos oficiales\\appRabatex1\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj",
         "projectName": "ProyectoRabatexOficial",
-        "projectPath": "C:\\Users\\Win10\\Desktop\\.net\\ProyectoRabatexOficial\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj",
+        "projectPath": "C:\\Users\\Win10\\Desktop\\proyectos oficiales\\appRabatex1\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj",
         "packagesPath": "C:\\Users\\Win10\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Win10\\Desktop\\.net\\ProyectoRabatexOficial\\ProyectoRabatexOficial\\obj\\",
+        "outputPath": "C:\\Users\\Win10\\Desktop\\proyectos oficiales\\appRabatex1\\ProyectoRabatexOficial\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -88,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.307\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.308\\RuntimeIdentifierGraph.json"
         }
       }
     }

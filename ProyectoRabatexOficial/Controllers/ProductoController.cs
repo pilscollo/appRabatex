@@ -12,8 +12,39 @@ namespace ProyectoRabatexOficial.Controllers
         public DbProyectoRabatexContext _context;
 
         public ProductoController(DbProyectoRabatexContext context)
-        { 
+        {
             _context = context;
+        }
+
+        [HttpPut]
+        [Route("/producto/agregarStok/{Id}")]
+        public async Task<IActionResult> putProductoStock(int Id,int stock)
+        {
+            try
+            {
+                Producto producto = _context.Productos.Find(Id);
+
+
+                if (producto!=null)
+                {
+
+
+                    producto.Stock = stock;
+
+                    _context.Productos.Update(producto);
+                    _context.SaveChanges();
+
+                    return Ok("todo ok");
+                }
+                else
+                {
+                    return new NotFoundResult();
+                }
+            }
+            catch
+            {
+                return new NotFoundResult();
+            }
         }
 
         [HttpPut]
@@ -28,7 +59,6 @@ namespace ProyectoRabatexOficial.Controllers
                     Producto producto = _context.Productos.Where(o => o.Nombre.Equals(dto.Nombre)).FirstOrDefault();
                     producto.Nombre = dto.Nombre;
                     producto.Estado = 1;
-                    producto.Stock = 0;
                     producto.Unidad = dto.Unidad;
 
                     _context.Productos.Update(producto);
@@ -46,6 +76,59 @@ namespace ProyectoRabatexOficial.Controllers
                 return new NotFoundResult();
             }
             }
+        [HttpPut]
+        [Route("/producto/activar/{Id}")]
+        public async Task<IActionResult> activarProducto(int Id)
+        {
+            try
+            {
+                Producto producto = await _context.Productos.FindAsync(Id);
+                if (producto != null)
+                {
+                    producto.Estado = 1;
+                    producto.Id = Id;
+                    Console.WriteLine(producto.Id);
+                    _context.Productos.Update(producto);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
+
+            }
+        }
+        [HttpPut]
+        [Route("/productos/eliminar/{Id}")]
+        public async Task<IActionResult> eliminarProducto(int Id)
+        {
+            try {
+                Producto producto = await _context.Productos.FindAsync(Id);
+                if (producto != null)
+                {
+                    Console.WriteLine("holaaaaaa");
+                    producto.Estado = 0;
+                    Console.WriteLine(producto.Id);
+                    _context.Update(producto);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    return NotFound();
+                }
+
+                return Ok();
+            } catch {
+                return NotFound();
+
+            }
+        }
         [HttpGet]
         [Route("/producto/activos")]
         public async Task<ActionResult<List<Producto>>> GetProductoActivos()
@@ -86,6 +169,25 @@ namespace ProyectoRabatexOficial.Controllers
             catch
             { return NotFound(); }
         }
+        [HttpGet]
+        [Route("/producto/nombre/{nombre}")]
+        public async Task<ActionResult<Producto>> obtenerProducto(string nombre)
+        {
+            try
+            {
+                Producto producto= _context.Productos.Where(e => e.Nombre.Equals(nombre)).FirstOrDefault();
+                if (producto != null)
+                {
+                    return new OkObjectResult(producto);
+                }
+                else { return NotFound(); }
+            }
+            catch
+            {
+                return NotFound();
+            }
+
+        }
         [HttpPost]
         [Route("/producto/agregar")]
         public async Task<IActionResult> PostProducto(ProductoDto dto)
@@ -95,14 +197,14 @@ namespace ProyectoRabatexOficial.Controllers
                Producto producto = new Producto();
 
                 
-                if (!dto.Nombre.Equals(""))
+                if (!dto.Nombre.Equals("") || _context.Productos.Where(o=>o.Nombre.Equals(dto.Nombre)).FirstOrDefault()==null)
                 {
                     producto.Nombre = dto.Nombre;
                     producto.Estado = 1;
                     producto.Stock = 0;
                     producto.Unidad = dto.Unidad;
 
-                    _context.Productos.Add(producto);
+                    await _context.Productos.AddAsync(producto);
                     _context.SaveChanges();
 
                     return Ok("todo ok");
@@ -112,9 +214,9 @@ namespace ProyectoRabatexOficial.Controllers
                     return new NotFoundResult();
                 }
             }
-            catch
+            catch(Exception e)
             {
-                return new BadRequestResult();
+                return BadRequest(e.Message);
             }
         }
     }

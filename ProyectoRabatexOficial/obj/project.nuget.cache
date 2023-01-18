@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XnFpC4fiAh8eWw9rUh7obtUE4Infzvw2OfREofEznqoq9JpYhGX+OwO/wTXcGgirtTXpPyJFtiOI90p1WpHPmQ==",
+  "dgSpecHash": "8IL0jUhZfRL/hX3qQeuuRx+XoAUvmvux0q1OlFFDoFxQxhkKpghrozlLV1k1BPoYwkuN+Fa26VzoFmC6Q+VsOw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Win10\\Desktop\\.net\\ProyectoRabatexOficial\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj",
+  "projectFilePath": "C:\\Users\\Win10\\Desktop\\proyectos oficiales\\appRabatex1\\ProyectoRabatexOficial\\ProyectoRabatexOficial.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Win10\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Win10\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

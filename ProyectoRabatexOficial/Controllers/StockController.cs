@@ -81,34 +81,39 @@ namespace ProyectoRabatexOficial.Controllers
 
             try
             {
-                Stock s = _context.Stocks.OrderBy(o => o.Id).ToList().LastOrDefault();
-
-                int id = -1;
-                if (s != null)
-                {
-                    id = s.Id;
-                }
+                
                 StockProducto stockProducto = new StockProducto();
                 Producto producto = await _context.Productos.FindAsync(idProducto);
                 if (producto != null)
                 {
 
-                    stockProducto.IdProducto = idProducto;
 
-                    stockProducto.IdProductoNavigation = producto;
+                         
                     Stock stock1 = new Stock();
                     stock1.Cantidad = dto.Cantidad;
                     stock1.Costo = dto.Costo;
                     stock1.Estado = 1;
-
+                    
                     await _context.Stocks.AddAsync(stock1);
 
-                    stock1.Id = id + 1;
-                    stockProducto.IdStockNavigation = stock1;
+                    _context.SaveChanges();
+                    stockProducto.IdProducto = idProducto;
+                    Stock  aux= _context.Stocks.OrderBy(o => o.Id).LastOrDefault();
+                    if (aux != null)
+                    {
+                        stockProducto.IdStock = aux.Id;
+                    }
+                    else
+                    {
+                        stockProducto.IdStock = 0;
+                    }
 
                     await _context.StockProductos.AddAsync(stockProducto);
 
                     _context.SaveChanges();
+                    
+                    
+                   
 
                     return Ok();
 
@@ -129,6 +134,81 @@ namespace ProyectoRabatexOficial.Controllers
                 }
 
             }
+        [HttpPost]
+        [Route("/stock/agregar/porNombre/{nombre}")]
 
+        public async Task<IActionResult> agregarStockPorNombre(string nombre, StockDto dto)
+        {/*
+            try
+            {
+                Producto producto = await _context.Productos.FindAsync(idProducto);
+                Stock stock1 = new Stock();
+                stock1.Cantidad = dto.Cantidad;
+                stock1.Costo = dto.Costo;
+                stock1.Estado = 1;
+                StockProducto stockProducto = new StockProducto();
+                stockProducto.IdProductoNavigation = producto;
+                stockProducto.IdStockNavigation = stock1;
+                await _context.Stocks.AddAsync(stock1);
+                await _context.StockProductos.AddAsync(stockProducto);
+
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e){ return NotFound(e.InnerException.Message); }*/
+
+            try
+            {
+
+                StockProducto stockProducto = new StockProducto();
+                Producto producto = _context.Productos.Where(o=>o.Nombre.Equals(nombre)).FirstOrDefault();
+                if (producto != null)
+                {
+
+
+
+                    Stock stock1 = new Stock();
+                    stock1.Cantidad = dto.Cantidad;
+                    stock1.Costo = dto.Costo;
+                    stock1.Estado = 1;
+
+                    await _context.Stocks.AddAsync(stock1);
+
+                    _context.SaveChanges();
+                    stockProducto.IdProducto = producto.Id;
+                    Stock aux = _context.Stocks.OrderBy(o => o.Id).LastOrDefault();
+                    if (aux != null)
+                    {
+                        stockProducto.IdStock = aux.Id;
+                    }
+                    else
+                    {
+                        stockProducto.IdStock = 0;
+                    }
+                    await _context.StockProductos.AddAsync(stockProducto);
+                    _context.SaveChanges();
+                    return Ok();
+                }
+
+                else
+                {
+                    Console.WriteLine("chau");
+                    return NotFound();
+                }
+
+
+            }
+            catch (Exception e)
+            {
+
+
+                return NotFound(e.Message);
+            }
+
+        }
     }
+
+    
+
 }
+
